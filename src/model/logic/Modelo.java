@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.gson.JsonArray;
@@ -58,11 +59,11 @@ public class Modelo
 	}
 
 
-	public Stack<Comparendo> cargarDatos() 
+	public void cargarDatos() 
 
 	{
 
-		Stack<Comparendo> datos = new Stack<Comparendo>();
+
 
 		JsonReader reader;
 
@@ -96,7 +97,7 @@ public class Modelo
 						.get(1).getAsDouble();
 
 				Comparendo c = new Comparendo(OBJECTID, FECHA_HORA, DES_INFRAC, MEDIO_DETE, CLASE_VEHI, TIPO_SERVI, INFRACCION, LOCALIDAD, longitud, latitud);
-				datos.push(c);
+				pilaComparendos.push(c);
 			}
 
 		} catch (FileNotFoundException | ParseException e) {
@@ -104,18 +105,62 @@ public class Modelo
 			e.printStackTrace();
 		}
 
-		pilaComparendos = datos;
-		return datos;
+
 	}
 
-	public Comparendo darPrimero()
+	public Comparendo darPrimeroPila()
 	{
 		return pilaComparendos.peek();
 	}
 
-	public Comparendo darUltimo()
+	
+	public Comparendo darPrimeroCola()
 	{
 		return null;
+	}
+	
+	public Queue<Comparendo> darUltimosNComparendos(String infraccion, int numero)
+	{
+		Queue<Comparendo> buscados = new Queue<Comparendo>();
+		
+		if(pilaComparendos == null)
+		{
+			cargarDatos();
+		}
+		
+		Iterator<Comparendo> iter = pilaComparendos.iterator();
+		Comparendo actual = pilaComparendos.peek();
+		
+		boolean encontro = false;
+		int contador = 0;
+		
+		while(actual != null && !encontro)
+		{
+			if(actual.darInfraccion().equals(infraccion))
+			{
+				contador ++;
+				buscados.enqueue(actual);
+				
+				if(contador  == numero)
+				{
+					encontro  = true;
+				}
+			}
+			
+			if(iter.hasNext())
+			{
+				actual  = iter.next();
+			}
+			
+			else
+			{
+				break;
+			}
+		}
+		
+		return buscados;
+		
+		
 	}
 
 

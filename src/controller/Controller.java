@@ -2,6 +2,7 @@ package controller;
 
 import java.util.Scanner;
 
+import model.logic.Comparendo;
 import model.logic.Modelo;
 import view.View;
 
@@ -47,11 +48,34 @@ public class Controller {
 				view.printMessage("Numero total de comparendos " + modelo.darTamano() + "\n---------");		
 				view.printMessage("Tiempo de carga (seg): " + (end-start)/1000.0);
 				view.printMessage("Numero total de comparendos " + modelo.darTamano() + "\n---------");
-				view.printMessage("Primer dato: " + modelo.darPrimero() + "\n");
-				view.printMessage("Ultimo dato: " + modelo.darUltimo() + "\n");
+				view.printMessage("Primer dato de la pila: " + modelo.darPrimeroPila() + "\n");
+				view.printMessage("Primer dato de la cola: " + modelo.darPrimeroCola() + "\n");
 				break;				
 
 			case 2: 
+				
+				
+				break;
+				
+			case 3:
+				view.printMessage("Ingrese el código de infraccion buscado:");
+				String pInfraccion = lector.next();
+				
+				view.printMessage("Ingrese el número de comparendos que desea buscar:");
+				int numero = lector.nextInt();
+				
+				IQueue<Comparendo> buscados = modelo.darUltimosNComparendos(pInfraccion, numero);
+				view.printMessage("Los últimos " + numero + " comparendos por la infracción " + pInfraccion + " son:");
+				
+				for(Comparendo c: buscados)
+				{
+					view.printMessage(c.toString());
+				}
+				
+				break;
+				
+				
+			case 4:
 				view.printMessage("--------- \n Hasta pronto !! \n---------"); 
 				lector.close();
 				fin = true;
