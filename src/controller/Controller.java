@@ -64,7 +64,7 @@ public class Controller {
 				view.printMessage("Ingrese el número de comparendos que desea buscar:");
 				int numero = lector.nextInt();
 				
-				IQueue<Comparendo> buscados = modelo.darUltimosNComparendos(pInfraccion, numero);
+				Queue<Comparendo> buscados = modelo.darUltimosNComparendos(pInfraccion, numero);
 				view.printMessage("Los últimos " + numero + " comparendos por la infracción " + pInfraccion + " son:");
 				
 				for(Comparendo c: buscados)
