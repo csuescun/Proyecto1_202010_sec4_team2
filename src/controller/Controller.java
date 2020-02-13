@@ -43,8 +43,8 @@ public class Controller {
 				long start = System.currentTimeMillis();
 				modelo.cargarDatos(); 
 				long end = System.currentTimeMillis();
-				
-				
+
+
 				view.printMessage("Datos de comparendos cargados.");
 				view.printMessage("Numero total de comparendos " + modelo.darTamanoPila() + "\n---------");		
 				view.printMessage("Tiempo de carga (seg): " + (end-start)/1000.0);
@@ -59,27 +59,27 @@ public class Controller {
 				{
 					view.printMessage(c.datosCluster());
 				}
-				
+
 				break;
-				
+
 			case 3:
 				view.printMessage("Ingrese el código de infraccion buscado:");
 				String pInfraccion = lector.next();
-				
+
 				view.printMessage("Ingrese el número de comparendos que desea buscar:");
 				int numero = lector.nextInt();
-				
+
 				Queue<Comparendo> buscados = modelo.darUltimosNComparendos(pInfraccion, numero);
 				view.printMessage("Los últimos " + numero + " comparendos por la infracción " + pInfraccion + " son:");
-				
+
 				for(Comparendo c: buscados)
 				{
-					view.printMessage(c.toString());
+					view.printMessage(c.datosCluster());
 				}
-				
+
 				break;
-				
-				
+
+
 			case 4:
 				view.printMessage("--------- \n Hasta pronto !! \n---------"); 
 				lector.close();

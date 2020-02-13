@@ -10,7 +10,7 @@ public class TestStack
 {
 
 	private Stack<String> pila; 
-	
+
 	@Before
 	public void setUpEscenario1()
 	{
@@ -20,34 +20,34 @@ public class TestStack
 		pila.push("O");
 		pila.push("D");
 	}
-	
+
 	@Test
 	public void testIsEmpty()
 	{
 		assertTrue("Se supone que la lista no se encuentra vacía", pila.isEmpty()== false);
 	}
-	
+
 	@Test
 	public void testDarTamanio()
 	{
 		assertEquals("El tamano no corresponde al esperado", 4, pila.darTamanio());
 	}
-	
+
 	@Test
 	public void testPush()
 	{
 		pila.push("¡");
 		assertEquals("No corresponde al elemento esperado", "¡", pila.peek());
 		assertEquals("El tamaño no corresponde al esperado", 5, pila.darTamanio());
-		
+
 	}
-	
+
 	@Test
 	public void testPop()
 	{
 		assertEquals("No corresponde al elemento esperado", "D",pila.pop());
 	}
-	
+
 	@Test
 	public void testPeek()
 	{

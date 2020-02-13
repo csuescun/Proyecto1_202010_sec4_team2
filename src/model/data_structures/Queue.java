@@ -4,22 +4,22 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class Queue<T> implements Iterable<T> {
-	
+
 	private Node<T> primero;
 	private Node<T> ultimo;
 	private int size;
-	
+
 	public Queue()
 	{
 		primero = null;
 		ultimo = null;
 		size = 0;
 	}
-	
+
 	public void enqueue(T item)
 	{
 		Node<T> nuevo = new Node<T>(item);
-		
+
 		if(size == 0)
 		{
 			primero = nuevo;
@@ -32,18 +32,18 @@ public class Queue<T> implements Iterable<T> {
 		}
 		size++;
 	}
-	
+
 	public T dequeue()
 	{
-		 	Node<T> viejo = primero;
-		 	T buscado = primero.darItem();
-		 	primero = viejo.darSiguiente();
-		 	viejo.asignarSiguiente(null);
-		 	size--;
-		 	return buscado;
-		
+		Node<T> viejo = primero;
+		T buscado = primero.darItem();
+		primero = viejo.darSiguiente();
+		viejo.asignarSiguiente(null);
+		size--;
+		return buscado;
+
 	}
-	
+
 	public int darTamano()
 	{
 		return size;
@@ -58,7 +58,7 @@ public class Queue<T> implements Iterable<T> {
 	{
 		return ultimo.darItem();
 	}
-	
+
 	@Override
 	public Iterator<T> iterator() {
 		// TODO Auto-generated method stub
@@ -69,7 +69,7 @@ public class Queue<T> implements Iterable<T> {
 	{
 		Node<T> actual;
 		T value;
-		
+
 		public MiIteradorNodo()
 		{
 			actual = primero;
@@ -92,12 +92,12 @@ public class Queue<T> implements Iterable<T> {
 			{
 				value = actual.darItem();
 				actual = actual.darSiguiente();
-				
+
 			}
 			return value;
 		}
-		
+
 	}
-	
+
 
 }

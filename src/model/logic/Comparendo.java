@@ -56,12 +56,12 @@ public class Comparendo
 	 */
 
 	private String localidad;
-	
+
 	/**
 	 * 
 	 */
 	private double latitud;
-	
+
 	/**
 	 * 
 	 */

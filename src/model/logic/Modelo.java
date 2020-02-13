@@ -60,23 +60,23 @@ public class Modelo
 	{
 		return pilaComparendos.darTamanio();
 	}
-	
+
 	public int darTamanoCola()
 	{
 		return datos.darTamano();
 	}
-	
+
 	public Queue<Comparendo> repetidos()
 	{
 		if(datos==null)
 		{
 			cargarDatos();
 		}
-		
+
 		Queue<Comparendo> mayor = new Queue<Comparendo>();
 		Queue<Comparendo> temp = new Queue<Comparendo>();
 		String tipo = datos.darPrimerElemento().darInfraccion();
-		
+
 		for(Comparendo c: datos)
 		{
 			datos.dequeue();
@@ -95,7 +95,7 @@ public class Modelo
 				mayor = temp;
 			}
 		}
-		
+
 		return mayor;
 	}
 
@@ -151,54 +151,54 @@ public class Modelo
 		return pilaComparendos.peek();
 	}
 
-	
+
 	public Comparendo darPrimeroCola()
 	{
 		return datos.darPrimerElemento();
 	}
-	
+
 	public Queue<Comparendo> darUltimosNComparendos(String infraccion, int numero)
 	{
 		Queue<Comparendo> buscados = new Queue<Comparendo>();
-		
+
 		if(pilaComparendos == null)
 		{
 			cargarDatos();
 		}
-		
+
 		Iterator<Comparendo> iter = pilaComparendos.iterator();
 		Comparendo actual = pilaComparendos.peek();
-		
+
 		boolean encontro = false;
 		int contador = 0;
-		
+
 		while(actual != null && !encontro)
 		{
 			if(actual.darInfraccion().equals(infraccion))
 			{
 				contador ++;
 				buscados.enqueue(actual);
-				
+
 				if(contador  == numero)
 				{
 					encontro  = true;
 				}
 			}
-			
+
 			if(iter.hasNext())
 			{
 				actual  = iter.next();
 			}
-			
+
 			else
 			{
 				break;
 			}
 		}
-		
+
 		return buscados;
-		
-		
+
+
 	}
 
 
