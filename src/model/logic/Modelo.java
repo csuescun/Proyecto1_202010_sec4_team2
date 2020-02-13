@@ -2,6 +2,7 @@ package model.logic;
 
 
 import model.data_structures.IStack;
+import model.data_structures.Queue;
 import model.data_structures.Stack;
 
 import java.io.FileNotFoundException;
@@ -31,6 +32,7 @@ public class Modelo
 	 * Atributos del modelo del mundo
 	 */
 	private Stack<Comparendo> pilaComparendos;
+	private Queue<Comparendo> datos;
 
 	/**
 	 * Constructor del modelo del mundo con capacidad predefinida
@@ -39,6 +41,7 @@ public class Modelo
 	public Modelo()
 	{
 		pilaComparendos = new Stack<Comparendo>();
+		datos = new Queue<Comparendo>();
 	}
 
 	/**
@@ -53,18 +56,52 @@ public class Modelo
 	 * Servicio de consulta de numero de elementos presentes en el modelo 
 	 * @return numero de elementos presentes en el modelo
 	 */
-	public int darTamano()
+	public int darTamanoPila()
 	{
 		return pilaComparendos.darTamanio();
 	}
-
+	
+	public int darTamanoCola()
+	{
+		return datos.darTamano();
+	}
+	
+	public Queue<Comparendo> repetidos()
+	{
+		if(datos==null)
+		{
+			cargarDatos();
+		}
+		
+		Queue<Comparendo> mayor = new Queue<Comparendo>();
+		Queue<Comparendo> temp = new Queue<Comparendo>();
+		String tipo = datos.darPrimerElemento().darInfraccion();
+		
+		for(Comparendo c :datos)
+		{
+			Comparendo actual = datos.dequeue();
+			if(tipo.equals(actual.darInfraccion()))
+			{	
+				temp.enqueue(actual);
+			}
+			else
+			{
+				tipo = actual.darInfraccion();
+				temp = new Queue<Comparendo>() ;
+				temp.enqueue(actual);
+			}
+			if(temp.darTamano()>mayor.darTamano())
+			{
+				mayor = temp;
+			}
+		}
+		
+		return mayor;
+	}
 
 	public void cargarDatos() 
 
 	{
-
-
-
 		JsonReader reader;
 
 		try {
@@ -96,8 +133,9 @@ public class Modelo
 				double latitud = e.getAsJsonObject().get("geometry").getAsJsonObject().get("coordinates").getAsJsonArray()
 						.get(1).getAsDouble();
 
-				Comparendo c = new Comparendo(OBJECTID, FECHA_HORA, DES_INFRAC, MEDIO_DETE, CLASE_VEHI, TIPO_SERVI, INFRACCION, LOCALIDAD, longitud, latitud);
+				Comparendo c = new Comparendo(OBJECTID, FECHA_HORA, MEDIO_DETE, CLASE_VEHI, TIPO_SERVI, INFRACCION,DES_INFRAC, LOCALIDAD, longitud, latitud);
 				pilaComparendos.push(c);
+				datos.enqueue(c);
 			}
 
 		} catch (FileNotFoundException | ParseException e) {
@@ -116,7 +154,7 @@ public class Modelo
 	
 	public Comparendo darPrimeroCola()
 	{
-		return null;
+		return datos.darPrimerElemento();
 	}
 	
 	public Queue<Comparendo> darUltimosNComparendos(String infraccion, int numero)

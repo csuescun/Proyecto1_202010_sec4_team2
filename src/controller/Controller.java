@@ -2,6 +2,7 @@ package controller;
 
 import java.util.Scanner;
 
+import model.data_structures.Queue;
 import model.logic.Comparendo;
 import model.logic.Modelo;
 import view.View;
@@ -45,15 +46,19 @@ public class Controller {
 				
 				
 				view.printMessage("Datos de comparendos cargados.");
-				view.printMessage("Numero total de comparendos " + modelo.darTamano() + "\n---------");		
+				view.printMessage("Numero total de comparendos " + modelo.darTamanoPila() + "\n---------");		
 				view.printMessage("Tiempo de carga (seg): " + (end-start)/1000.0);
-				view.printMessage("Numero total de comparendos " + modelo.darTamano() + "\n---------");
 				view.printMessage("Primer dato de la pila: " + modelo.darPrimeroPila() + "\n");
 				view.printMessage("Primer dato de la cola: " + modelo.darPrimeroCola() + "\n");
 				break;				
 
 			case 2: 
-				
+				Queue<Comparendo> rep =  modelo.repetidos();
+				view.printMessage("Cantidad: "+rep.darTamano());
+				for(Comparendo c : rep)
+				{
+					view.printMessage(c.datosCluster());
+				}
 				
 				break;
 				

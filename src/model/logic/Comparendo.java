@@ -150,6 +150,9 @@ public class Comparendo
 				+ longitud + "]";
 	}
 
-
+	public String datosCluster()
+	{
+		return "INFRACCION: "+infraccion+" OBJECTID: "+objectID+" FECHA_HORA: "+fecha+" CLASE_VEHI:"+claseVehiculo+" TIPO_SERVI:"+tipoServicio+" LOCALIDAD: "+localidad;	
+	}
 
 }
