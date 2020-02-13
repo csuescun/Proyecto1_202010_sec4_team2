@@ -77,18 +77,18 @@ public class Modelo
 		Queue<Comparendo> temp = new Queue<Comparendo>();
 		String tipo = datos.darPrimerElemento().darInfraccion();
 		
-		for(Comparendo c :datos)
+		for(Comparendo c: datos)
 		{
-			Comparendo actual = datos.dequeue();
-			if(tipo.equals(actual.darInfraccion()))
+			datos.dequeue();
+			if(tipo.equals(c.darInfraccion()))
 			{	
-				temp.enqueue(actual);
+				temp.enqueue(c);
 			}
 			else
 			{
-				tipo = actual.darInfraccion();
+				tipo = c.darInfraccion();
 				temp = new Queue<Comparendo>() ;
-				temp.enqueue(actual);
+				temp.enqueue(c);
 			}
 			if(temp.darTamano()>mayor.darTamano())
 			{
