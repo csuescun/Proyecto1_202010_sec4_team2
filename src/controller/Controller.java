@@ -48,21 +48,12 @@ public class Controller {
 				view.printMessage("Datos de comparendos cargados.");
 				view.printMessage("Numero total de comparendos " + modelo.darTamanoCola() + "\n---------");		
 				view.printMessage("Tiempo de carga (seg): " + (end-start)/1000.0 + "\n---------");
-				view.printMessage("El comparendo con mayor OBJECTID es:" + modelo.darMayorComparendo().datosCluster() + "\n--------");
+				view.printMessage("El comparendo con mayor OBJECTID es:");
+				view.printMessage(modelo.darMayorComparendo().datosCluster() + "\n--------");
 				view.printMessage("La zona Minimax es:  (" + modelo.darMenorLatitud() + ", " + modelo.darMenorLongitud() + ") y (" + modelo.darMayorLatitud() + " , " + modelo.darMayorLongitud() + ") " +"\n");
 				break;				
 
-			case 2: 
-				Queue<Comparendo> rep =  modelo.repetidos();
-				view.printMessage("Cantidad: "+rep.darTamano());
-				for(Comparendo c : rep)
-				{
-					view.printMessage(c.datosCluster());
-				}
-
-				break;
-
-			case 3:
+			case 2:
 				view.printMessage("--------- \n Hasta pronto !! \n---------"); 
 				lector.close();
 				fin = true;
