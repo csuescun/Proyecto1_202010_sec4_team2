@@ -3,7 +3,7 @@ package model.data_structures;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class Queue<T> implements Iterable<T> {
+public class Queue<T> implements IQueue<T>, Iterable<T> {
 
 	private Node<T> primero;
 	private Node<T> ultimo;
@@ -14,6 +14,19 @@ public class Queue<T> implements Iterable<T> {
 		primero = null;
 		ultimo = null;
 		size = 0;
+	}
+	
+	public boolean isEmpty()
+	{
+		if(size == 0)
+		{
+			return true;
+		}
+		
+		else
+		{
+			return false;
+		}
 	}
 
 	public void enqueue(T item)

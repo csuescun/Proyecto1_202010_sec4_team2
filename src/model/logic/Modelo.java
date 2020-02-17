@@ -1,9 +1,9 @@
 package model.logic;
 
 
-import model.data_structures.IStack;
+
 import model.data_structures.Queue;
-import model.data_structures.Stack;
+
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -19,6 +19,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
+
 /**
  * Definicion del modelo del mundo
  *
@@ -31,8 +32,27 @@ public class Modelo
 	/**
 	 * Atributos del modelo del mundo
 	 */
-	private Stack<Comparendo> pilaComparendos;
+
 	private Queue<Comparendo> datos;
+
+	/**
+	 * 
+	 */
+
+	private Comparendo mayorComparendo;
+
+	/**
+	 * Zona minimax
+	 */
+
+	private double menorLongitud; 
+
+	private double menorLatitud; 
+
+	private double mayorLongitud; 
+
+	private double mayorLatitud; 
+
 
 	/**
 	 * Constructor del modelo del mundo con capacidad predefinida
@@ -40,26 +60,14 @@ public class Modelo
 
 	public Modelo()
 	{
-		pilaComparendos = new Stack<Comparendo>();
 		datos = new Queue<Comparendo>();
+		menorLongitud = 100;
+		menorLatitud = 100;
+
+		mayorLongitud = -100;
+		mayorLatitud = -100;
 	}
 
-	/**
-	 * 
-	 */
-	public Stack<Comparendo> darPila()
-	{
-		return pilaComparendos;
-	}
-
-	/**
-	 * Servicio de consulta de numero de elementos presentes en el modelo 
-	 * @return numero de elementos presentes en el modelo
-	 */
-	public int darTamanoPila()
-	{
-		return pilaComparendos.darTamanio();
-	}
 
 	public int darTamanoCola()
 	{
@@ -105,6 +113,8 @@ public class Modelo
 		JsonReader reader;
 
 		try {
+
+			int mayorID  = 0;
 			reader = new JsonReader(new FileReader(PATH));
 			JsonParser jsonp = new JsonParser();
 
@@ -134,8 +144,32 @@ public class Modelo
 						.get(1).getAsDouble();
 
 				Comparendo c = new Comparendo(OBJECTID, FECHA_HORA, MEDIO_DETE, CLASE_VEHI, TIPO_SERVI, INFRACCION,DES_INFRAC, LOCALIDAD, longitud, latitud);
-				pilaComparendos.push(c);
 				datos.enqueue(c);
+
+				if(latitud < menorLatitud)
+				{
+					menorLatitud = latitud;
+				}
+
+				if(latitud > mayorLatitud)
+				{
+					mayorLatitud = latitud;
+				}
+
+				if(longitud < menorLongitud)
+				{
+					menorLongitud = longitud;
+				}
+
+				if(longitud > mayorLongitud)
+				{
+					mayorLongitud = longitud;
+				}
+				
+				if(OBJECTID > mayorID)
+				{
+					mayorComparendo = c;
+				}
 			}
 
 		} catch (FileNotFoundException | ParseException e) {
@@ -146,65 +180,81 @@ public class Modelo
 
 	}
 
-	public Comparendo darPrimeroPila()
-	{
-		return pilaComparendos.peek();
-	}
-
-
 	public Comparendo darPrimeroCola()
 	{
 		return datos.darPrimerElemento();
 	}
 
-	public Queue<Comparendo> darUltimosNComparendos(String infraccion, int numero)
+	public Comparendo darUltimoCola()
 	{
-		Queue<Comparendo> buscados = new Queue<Comparendo>();
+		return datos.darUltimoElemento();
+	}
 
-		if(pilaComparendos == null)
-		{
-			cargarDatos();
-		}
-
-		Iterator<Comparendo> iter = pilaComparendos.iterator();
-		Comparendo actual = pilaComparendos.peek();
-
-		boolean encontro = false;
-		int contador = 0;
-
-		while(actual != null && !encontro)
-		{
-			if(actual.darInfraccion().equals(infraccion))
-			{
-				contador ++;
-				buscados.enqueue(actual);
-
-				if(contador  == numero)
-				{
-					encontro  = true;
-				}
-			}
-
-			if(iter.hasNext())
-			{
-				actual  = iter.next();
-			}
-
-			else
-			{
-				break;
-			}
-		}
-
-		return buscados;
-
-
+	public double darMenorLongitud()
+	{
+		return menorLongitud;
 	}
 
 
+	public double darMenorLatitud()
+	{
+		return menorLatitud;
+	}
+
+	public double darMayorLongitud()
+	{
+		return mayorLongitud;
+	}
+
+	public double darMayorLatitud()
+	{
+		return mayorLatitud;
+	}
+
+	public Comparendo darMayorComparendo()
+	{
+		return mayorComparendo;
+	}
 
 
+	// Requerimiento B1:
 
+	public Comparendo darPrimerComparendoPorInfraccion(String pInfraccion)
+	{
+		return null;
+	}
+
+	//Requerimiento B2: 
+
+	public Queue<Comparendo> darComparendosPorInfraccion(String pInfraccion)
+	{
+		return null; 
+	}
+
+
+	//Requerimiento B3
+
+	public ArrayList<ArrayList<String>> darComparendosPorTipo()
+	{
+		return null;
+	}
+
+	// Requerimiento C1
+
+	public ArrayList<ArrayList<String>> numeroComparendosPorLocalidadYFecha(String pLocalidad, Date fechaIncial, Date fechaFinal)
+	{
+		return null;
+	}
+
+	//Requerimiento C2
+
+	public ArrayList<ArrayList<String>> darNComparendosPorFecha(int N, Date fechaIncial, Date fechaFinal)
+	{
+		return null;
+	}
+
+
+	//Requerimiento C3
 
 
 }

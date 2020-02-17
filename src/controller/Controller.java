@@ -46,10 +46,10 @@ public class Controller {
 
 
 				view.printMessage("Datos de comparendos cargados.");
-				view.printMessage("Numero total de comparendos " + modelo.darTamanoPila() + "\n---------");		
-				view.printMessage("Tiempo de carga (seg): " + (end-start)/1000.0);
-				view.printMessage("Primer dato de la pila: " + modelo.darPrimeroPila() + "\n");
-				view.printMessage("Primer dato de la cola: " + modelo.darPrimeroCola() + "\n");
+				view.printMessage("Numero total de comparendos " + modelo.darTamanoCola() + "\n---------");		
+				view.printMessage("Tiempo de carga (seg): " + (end-start)/1000.0 + "\n---------");
+				view.printMessage("El comparendo con mayor OBJECTID es:" + modelo.darMayorComparendo().datosCluster() + "\n--------");
+				view.printMessage("La zona Minimax es:  (" + modelo.darMenorLatitud() + ", " + modelo.darMenorLongitud() + ") y (" + modelo.darMayorLatitud() + " , " + modelo.darMayorLongitud() + ") " +"\n");
 				break;				
 
 			case 2: 
@@ -63,24 +63,6 @@ public class Controller {
 				break;
 
 			case 3:
-				view.printMessage("Ingrese el código de infraccion buscado:");
-				String pInfraccion = lector.next();
-
-				view.printMessage("Ingrese el número de comparendos que desea buscar:");
-				int numero = lector.nextInt();
-
-				Queue<Comparendo> buscados = modelo.darUltimosNComparendos(pInfraccion, numero);
-				view.printMessage("Los últimos " + numero + " comparendos por la infracción " + pInfraccion + " son:");
-
-				for(Comparendo c: buscados)
-				{
-					view.printMessage(c.datosCluster());
-				}
-
-				break;
-
-
-			case 4:
 				view.printMessage("--------- \n Hasta pronto !! \n---------"); 
 				lector.close();
 				fin = true;
