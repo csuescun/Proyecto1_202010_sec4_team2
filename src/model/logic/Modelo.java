@@ -400,39 +400,49 @@ public class Modelo
 			int totalPublicos = 0;
 
 			String infraccionActual = totalComparendos[i].darInfraccion();
-			String infraccionSiguiente = totalComparendos[i+1].darInfraccion();
 
-			while(infraccionActual.equals(infraccionSiguiente))
+			if(i != totalComparendos.length-1)
 			{
-				
-				
-				if(totalComparendos[i].darTipoServicio().equals("Particular"))
-				{
-					totalParticulares ++;
-				}
+				String infraccionSiguiente = totalComparendos[i+1].darInfraccion();
 
-				else if(totalComparendos[i].darTipoServicio().equals("Público"))
+				while(infraccionActual.equals(infraccionSiguiente))
 				{
-					totalPublicos ++;
+
+
+					if(totalComparendos[i].darTipoServicio().equals("Particular"))
+					{
+						totalParticulares ++;
+					}
+
+					else if(totalComparendos[i].darTipoServicio().equals("Público"))
+					{
+						totalPublicos ++;
+					}
+
 				}
 
 			}
 			
-			
+			else
+			{
+				
+			}
+
+
 			if(totalParticulares != 0 || totalPublicos != 0)
 			{
 				cantidades.set(0, ""+ infraccionActual);
 				cantidades.set(1, ""+totalParticulares);
 				cantidades.set(2, ""+ totalPublicos);
-				
+
 				aDevolver.add(cantidades);
 			}
-			
-			
+
+
 
 		}
-		
-		
+
+
 		return aDevolver;
 
 
