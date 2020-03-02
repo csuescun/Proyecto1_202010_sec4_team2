@@ -165,7 +165,7 @@ public class Modelo
 				{
 					mayorLongitud = longitud;
 				}
-				
+
 				if(OBJECTID > mayorID)
 				{
 					mayorComparendo = c;
@@ -214,6 +214,101 @@ public class Modelo
 	public Comparendo darMayorComparendo()
 	{
 		return mayorComparendo;
+	}
+
+
+	//Copiar comparendos
+
+	public Comparendo[] copiarArreglo()
+	{
+		Comparendo[] comparendos = new Comparendo[datos.darTamano()];
+		int i = 0;
+		for(Comparendo e : datos)
+		{
+			comparendos[i] = e;
+			i++;
+		}
+		return comparendos;
+	}
+
+	// Ordenamientos y comparadores
+
+	// Comparador por fecha
+	public static  boolean less(Comparable a, Comparable b)
+	{
+		return a.compareTo(b)<0;
+	}
+
+	//Comparador por localidad
+	public static boolean lessPorLocalidad(Comparendo c1, Comparendo c2)
+	{
+		return c1.compararPorLocalidad(c2) <0;
+	}
+
+
+	//Comparador por infracción
+
+	public static boolean lessPorInfraccion(Comparendo c1, Comparendo c2)
+	{
+		return c1.compararPorInfraccion(c2)<0;
+	}
+
+	//Shell por fecha
+	public void shellSortPorFecha(Comparable[] a)
+	{
+		int N = a.length;
+		int h = 1;
+		while (h < N/3)
+			h = 3*h + 1;
+		while (h >= 1) {
+			for (int i = h; i < N; i++) {
+				for (int j = i; j >= h && less(a[j], a[j-h]); j -= h)
+					exch(a, j, j-h);
+			}
+			h = h/3;
+		}
+	}
+
+	public static void exch(Comparable[] a, int i, int j)
+	{
+		Comparable temporal = a[i];
+		a[i] = a[j];
+		a[j] = temporal;		
+	}
+
+	//Shell por localidad
+
+	public void shellSortPorLocalidad(Comparable[] a)
+	{
+		int N = a.length;
+		int h = 1;
+		while (h < N/3)
+			h = 3*h + 1;
+		while (h >= 1) {
+			for (int i = h; i < N; i++) {
+				for (int j = i; j >= h && lessPorLocalidad((Comparendo)a[j], (Comparendo)a[j-h]); j -= h)
+					exch(a, j, j-h);
+			}
+			h = h/3;
+		}
+	}
+
+
+	//Shell por infraccion 
+
+	public void shellSortPorInfraccion(Comparable[] a)
+	{
+		int N = a.length;
+		int h = 1;
+		while (h < N/3)
+			h = 3*h + 1;
+		while (h >= 1) {
+			for (int i = h; i < N; i++) {
+				for (int j = i; j >= h && lessPorInfraccion((Comparendo)a[j], (Comparendo)a[j-h]); j -= h)
+					exch(a, j, j-h);
+			}
+			h = h/3;
+		}
 	}
 
 

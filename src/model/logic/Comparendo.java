@@ -2,7 +2,7 @@ package model.logic;
 
 import java.util.Date;
 
-public class Comparendo 
+public class Comparendo implements Comparable<Comparendo>
 {
 
 	// -----------------------------------------------------------------
@@ -154,5 +154,100 @@ public class Comparendo
 	{
 		return "INFRACCION: "+infraccion+" OBJECTID: "+objectID+" FECHA_HORA: "+fecha+" CLASE_VEHI:"+claseVehiculo+" TIPO_SERVI:"+tipoServicio+" LOCALIDAD: "+localidad;	
 	}
+	
+	
+	@Override
+	public int compareTo(Comparendo o) {
+		int num = 0;
+		if(fecha.before(o.darFecha()))
+		{
+			num = -1;
+		}
+		if(fecha.after(o.darFecha()))
+		{
+			num = 1;
+		}
+		if(fecha.equals(o.darFecha()))
+		{
+			num = 0;
+		}
+		if(num==0)
+		{
+			if(objectID<o.darObjectID())
+			{
+				num = -1;
+			}
+			if(objectID>o.darObjectID())
+			{
+				num = 1;
+			}
+			if(objectID==o.darObjectID())
+			{
+				num = 0;
+			}
+		}
+		return num;
+	}
+	
+	
+	public int compararPorInfraccion(Comparendo c1)
+	{
+		int  num = infraccion.compareToIgnoreCase(c1.darInfraccion());
+		
+		if(num > 0)
+			num = 1;
+		
+		if(num < 0)
+			num = -1;
+		
+		if(num == 0)
+		{
+			if(objectID<c1.darObjectID())
+			{
+				num = -1;
+			}
+			if(objectID>c1.darObjectID())
+			{
+				num = 1;
+			}
+			if(objectID==c1.darObjectID())
+			{
+				num = 0;
+			}
+		}
+		
+		return num;
+	
+	}
 
+	
+	public int compararPorLocalidad(Comparendo c1)
+	{
+		int  num = localidad.compareToIgnoreCase(c1.darLocalidad());
+		
+		if(num > 0)
+			num = 1;
+		
+		if(num < 0)
+			num = -1;
+		
+		if(num == 0)
+		{
+			if(objectID<c1.darObjectID())
+			{
+				num = -1;
+			}
+			if(objectID>c1.darObjectID())
+			{
+				num = 1;
+			}
+			if(objectID==c1.darObjectID())
+			{
+				num = 0;
+			}
+		}
+		
+		return num;
+	
+	}
 }
