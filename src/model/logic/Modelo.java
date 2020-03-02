@@ -3,7 +3,7 @@ package model.logic;
 
 
 import model.data_structures.Queue;
-
+import model.data_structures.Node;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
+
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -219,7 +221,7 @@ public class Modelo
 
 	//Copiar comparendos
 
-	public Comparendo[] copiarArreglo()
+	public Comparendo[] copiarDatos()
 	{
 		Comparendo[] comparendos = new Comparendo[datos.darTamano()];
 		int i = 0;
@@ -230,6 +232,22 @@ public class Modelo
 		}
 		return comparendos;
 	}
+
+
+	//Copiar un arreglo dado
+
+	public Comparendo[] copiarArreglo(Queue<Comparendo> arreglo)
+	{
+		Comparendo[] comparendos = new Comparendo[arreglo.darTamano()];
+		int i = 0;
+		for(Comparendo e : arreglo)
+		{
+			comparendos[i] = e;
+			i++;
+		}
+		return comparendos;
+	}
+
 
 	// Ordenamientos y comparadores
 
@@ -267,6 +285,8 @@ public class Modelo
 			}
 			h = h/3;
 		}
+
+
 	}
 
 	public static void exch(Comparable[] a, int i, int j)
@@ -291,6 +311,8 @@ public class Modelo
 			}
 			h = h/3;
 		}
+
+
 	}
 
 
@@ -316,14 +338,47 @@ public class Modelo
 
 	public Comparendo darPrimerComparendoPorInfraccion(String pInfraccion)
 	{
-		return null;
+		Node<Comparendo> actual = datos.darPrimerNodo();
+		Comparendo buscado = null; 
+		boolean encontrado = false; 
+
+		while(actual != null && !encontrado)
+		{
+			if(actual.darItem().darInfraccion().equalsIgnoreCase(pInfraccion))
+			{
+				buscado = actual.darItem();
+				encontrado = true; 
+			}
+
+			actual = actual.darSiguiente();
+		}
+
+		return buscado;
+
 	}
 
 	//Requerimiento B2: 
 
-	public Queue<Comparendo> darComparendosPorInfraccion(String pInfraccion)
+	public Comparable[] darComparendosPorInfraccion(String pInfraccion)
 	{
-		return null; 
+		Queue<Comparendo> buscados = new Queue<Comparendo>();
+		Node<Comparendo> act = datos.darPrimerNodo();
+
+		while(act != null)
+		{
+			if(act.darItem().darInfraccion().equalsIgnoreCase(pInfraccion))
+			{
+				buscados.enqueue(act.darItem());
+			}
+
+			act = act.darSiguiente();
+		}
+
+		Comparable[] listaOrdenada = copiarArreglo(buscados); 
+		shellSortPorFecha(listaOrdenada);
+
+		return listaOrdenada;
+
 	}
 
 
@@ -331,7 +386,57 @@ public class Modelo
 
 	public ArrayList<ArrayList<String>> darComparendosPorTipo()
 	{
-		return null;
+		Comparendo[] totalComparendos = copiarDatos();
+		shellSortPorInfraccion(totalComparendos);
+
+		ArrayList<String> cantidades = new ArrayList<String>();
+		ArrayList<ArrayList<String>> aDevolver = new ArrayList<ArrayList<String>>();
+
+		for(int i = 0; i < totalComparendos.length; i++)
+		{
+
+
+			int totalParticulares = 0;
+			int totalPublicos = 0;
+
+			String infraccionActual = totalComparendos[i].darInfraccion();
+			String infraccionSiguiente = totalComparendos[i+1].darInfraccion();
+
+			while(infraccionActual.equals(infraccionSiguiente))
+			{
+				
+				
+				if(totalComparendos[i].darTipoServicio().equals("Particular"))
+				{
+					totalParticulares ++;
+				}
+
+				else if(totalComparendos[i].darTipoServicio().equals("Público"))
+				{
+					totalPublicos ++;
+				}
+
+			}
+			
+			
+			if(totalParticulares != 0 || totalPublicos != 0)
+			{
+				cantidades.set(0, ""+ infraccionActual);
+				cantidades.set(1, ""+totalParticulares);
+				cantidades.set(2, ""+ totalPublicos);
+				
+				aDevolver.add(cantidades);
+			}
+			
+			
+
+		}
+		
+		
+		return aDevolver;
+
+
+
 	}
 
 	// Requerimiento C1

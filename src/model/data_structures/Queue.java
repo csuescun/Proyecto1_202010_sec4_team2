@@ -72,6 +72,15 @@ public class Queue<T> implements IQueue<T>, Iterable<T> {
 		return ultimo.darItem();
 	}
 
+	public Node<T> darPrimerNodo() 
+	{
+		return primero; 
+	}
+	
+	public Node<T> darUltimoNodo()
+	{
+		return ultimo;
+	}
 	@Override
 	public Iterator<T> iterator() {
 		// TODO Auto-generated method stub
