@@ -1,5 +1,6 @@
 package model.logic;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Comparendo implements Comparable<Comparendo>
@@ -140,6 +141,13 @@ public class Comparendo implements Comparable<Comparendo>
 	public String darLocalidad()
 	{
 		return localidad;
+	}
+	
+	public String darSimpleDate()
+	{
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");  
+	    String strDate= formatter.format(fecha);
+	    return strDate;
 	}
 
 	@Override

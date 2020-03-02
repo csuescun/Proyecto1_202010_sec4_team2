@@ -54,10 +54,26 @@ public class Controller {
 				break;				
 
 			case 2:
-				view.printMessage("--------- \n Hasta pronto !! \n---------"); 
+				view.printMessage("-------"); 
 				lector.close();
 				fin = true;
 				break;	
+				
+			case 3:
+				
+				Comparendo[] copia1 = modelo.copiarDatos();
+				
+				modelo.shellSortPorInfraccion(copia1);
+				
+				String input = lector.next();
+		
+				for(int i = copia1.length-1;i>=0;i--)
+				{
+					if(copia1[i].darSimpleDate().equals(input))
+						view.printMessage(copia1[i].datosCluster());
+				}
+				
+				break;
 
 			default: 
 				view.printMessage("--------- \n Opcion Invalida !! \n---------");
