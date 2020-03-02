@@ -391,6 +391,7 @@ public class Modelo
 		ArrayList<String> cantidades = new ArrayList<String>();
 		ArrayList<ArrayList<String>> aDevolver = new ArrayList<ArrayList<String>>();
 
+		String codigoActual = "";
 		for(int i = 0; i < totalComparendos.length; i++)
 		{
 
@@ -419,12 +420,23 @@ public class Modelo
 					}
 
 				}
-
+				
 			}
 			
 			else
 			{
 				
+				if(totalComparendos[i].darTipoServicio().equals("Particular"))
+				{
+					totalParticulares ++;
+					
+				}
+				
+				if(totalComparendos[i].darTipoServicio().equals("Publico"))
+				{
+					totalPublicos ++;
+				}
+
 			}
 
 
