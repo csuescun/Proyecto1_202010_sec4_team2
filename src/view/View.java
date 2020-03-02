@@ -15,6 +15,7 @@ public class View
 	public void printMenu()
 	{
 		System.out.println("1. Cargar los datos sobre comparendos");
+
 		System.out.println("2. Consultar el primer comparendo por localidad dada");
 		System.out.println("3. Consultar comparendos con una fecha dada");
 		System.out.println("4. Comparar cantidad de comparendos por código de infracción en dos fechas diferentes");

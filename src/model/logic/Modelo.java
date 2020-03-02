@@ -248,7 +248,7 @@ public class Modelo
 		return comparendos;
 	}
 
-
+	
 	// Ordenamientos y comparadores
 
 	// Comparador por fecha
@@ -285,7 +285,6 @@ public class Modelo
 			}
 			h = h/3;
 		}
-
 
 	}
 
