@@ -29,7 +29,7 @@ import com.google.gson.stream.JsonReader;
 public class Modelo 
 {
 
-	public static String PATH = "./data/comparendos_dei_2018_small.geojson";
+	public static String PATH = "./data/comparendos_dei_2018.geojson";
 
 	/**
 	 * Atributos del modelo del mundo
@@ -383,74 +383,91 @@ public class Modelo
 
 	//Requerimiento B3
 
-	public ArrayList<ArrayList<String>> darComparendosPorTipo()
+	public ArrayList<String[]> darComparendosPorTipo()
 	{
 		Comparendo[] totalComparendos = copiarDatos();
 		shellSortPorInfraccion(totalComparendos);
 
-		ArrayList<String> cantidades = new ArrayList<String>();
-		ArrayList<ArrayList<String>> aDevolver = new ArrayList<ArrayList<String>>();
+		String[] cantidades = new String[3];
+		ArrayList<String[]> aDevolver = new ArrayList<String[]>();
 
-		String codigoActual = "";
+		
+		
 		for(int i = 0; i < totalComparendos.length; i++)
 		{
 
-
+			String codigoActual = "";
+			boolean cambioCodigo = false; 
+			
 			int totalParticulares = 0;
 			int totalPublicos = 0;
-
-			String infraccionActual = totalComparendos[i].darInfraccion();
-
-			if(i != totalComparendos.length-1)
+	
+			int repetidos = i;
+			
+			while(!cambioCodigo)
 			{
-				String infraccionSiguiente = totalComparendos[i+1].darInfraccion();
-
-				while(infraccionActual.equals(infraccionSiguiente))
+				if(repetidos+1 >= totalComparendos.length-1 )
 				{
-
-
-					if(totalComparendos[i].darTipoServicio().equals("Particular"))
+					cambioCodigo =  true; 
+					repetidos  = totalComparendos.length+1;
+					
+					if(totalComparendos[i].darTipoServicio().equalsIgnoreCase("Particular"))
 					{
 						totalParticulares ++;
 					}
-
-					else if(totalComparendos[i].darTipoServicio().equals("Público"))
+					
+					if(totalComparendos[i].darTipoServicio().equalsIgnoreCase("Público"))
 					{
 						totalPublicos ++;
 					}
-
+					
+		
+					codigoActual = totalComparendos[i].darInfraccion();
 				}
 				
-			}
-			
-			else
-			{
-				
-				if(totalComparendos[i].darTipoServicio().equals("Particular"))
+				else
 				{
-					totalParticulares ++;
+					String codigoA = totalComparendos[repetidos].darInfraccion();
+					String codigoSiguiente = totalComparendos[repetidos+1].darInfraccion();
+					
+					if(totalComparendos[i].darTipoServicio().equalsIgnoreCase("Particular"))
+					{
+						totalParticulares ++;
+					}
+					
+					if(totalComparendos[i].darTipoServicio().equalsIgnoreCase("Público"))
+					{
+						totalPublicos ++;
+					}
+					
+					repetidos++;
+					
+					if(!codigoA.equals(codigoSiguiente))
+					{
+						cambioCodigo = true; 
+						codigoActual = codigoA;
+						i  = repetidos;
+						
+					}
 					
 				}
-				
-				if(totalComparendos[i].darTipoServicio().equals("Publico"))
-				{
-					totalPublicos ++;
-				}
-
 			}
-
-
-			if(totalParticulares != 0 || totalPublicos != 0)
+			
+			
+			if (totalParticulares != 0 | totalPublicos != 0)
 			{
-				cantidades.set(0, ""+ infraccionActual);
-				cantidades.set(1, ""+totalParticulares);
-				cantidades.set(2, ""+ totalPublicos);
+				cantidades = new String[3];
+
+				cantidades[0]= codigoActual;
+				cantidades[1]= "" + totalParticulares;
+				cantidades[2]= "" + totalPublicos;
 
 				aDevolver.add(cantidades);
+
+
 			}
 
-
-
+			
 		}
 
 

@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import model.data_structures.Queue;
@@ -80,13 +81,50 @@ public class Controller {
 				
 				
 			case 5:
+				view.printMessage("Ingrese el codigo de la infraccion que desea buscar");
+				String codigo = lector.next();
+				
+				Comparendo buscado = modelo.darPrimerComparendoPorInfraccion(codigo);
+				
+				if(buscado != null)
+				{
+					view.printMessage("El primer comparendo encontrado fue:");
+					view.printMessage(buscado.datosCluster());
+				}
+				
+				else
+				{
+					view.printMessage("No se encontró ningún comparendo con ese código");
+				}
 				
 				break;
 				
 			case 6:
+				view.printMessage("Ingrese el codigo de la infraccion que desea buscar");
+				String codigo2 = lector.next();
+				
+				Comparable[] buscados = modelo.darComparendosPorInfraccion(codigo2);
+				
+				for(int i = 0; i < buscados.length; i++)
+				{
+					Comparendo actual = (Comparendo) buscados[i] ;
+					view.printMessage(actual.datosCluster());
+				}
+				
 				break;
 				
 			case 7:
+				
+				ArrayList<String[]> porTipo = modelo.darComparendosPorTipo();
+				
+				view.printMessage("Infracción            |Particular            |Público");
+				
+				for(int i = 0; i < porTipo.size(); i++)
+				{
+					view.printMessage(porTipo.get(i)[0] + "                   |" + porTipo.get(i)[1] + "                  |" + porTipo.get(i)[2]);
+				}
+				
+				view.printMessage("\n----------");
 				
 				break;
 				
