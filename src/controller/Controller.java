@@ -135,6 +135,7 @@ public class Controller {
 				try
 				{
 					view.printMessage("Ingrese la localidad que desea buscar:");
+					view.printMessage("Puede escoger entre Santa Fe, Barrios Unidos, Ciudad Bolivar, San Cristobal, Bogota, Rafael Uribe, Puente Aranda, Antonio Nariño" );
 					String localidad = lector.next();
 
 

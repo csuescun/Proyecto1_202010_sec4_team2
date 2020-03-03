@@ -504,7 +504,7 @@ public class Modelo
 					cambioCodigo =  true; 
 					repetidos  = totalComparendos.length+1;
 
-					if(totalComparendos[i].darFecha().after(fechaI) && totalComparendos[i].darFecha().before(fechaF) && totalComparendos[i].darLocalidad().equals(pLocalidad))
+					if(totalComparendos[i].darFecha().after(fechaI) && totalComparendos[i].darFecha().before(fechaF) && totalComparendos[i].darLocalidad().equalsIgnoreCase(pLocalidad))
 					{
 						total ++;
 					}
