@@ -1,6 +1,9 @@
 package controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 import model.data_structures.Queue;
@@ -129,6 +132,43 @@ public class Controller {
 				break;
 				
 			case 8: 
+				try
+				{
+				view.printMessage("Ingrese la localidad que desea buscar:");
+				String localidad = lector.next();
+				
+				
+				view.printMessage("Ingrese la fecha de inicio que desea buscar (yyyy/MM/dd):");
+				String fechaInicial = lector.next();
+				
+				view.printMessage("Ingrese la fecha de fin que desea buscar (yyyy/MM/dd):");
+				String fechaFinal = lector.next();
+				
+				SimpleDateFormat parser=new SimpleDateFormat("yyyy/MM/dd");
+
+				
+		
+				Date fechaI= parser.parse(fechaInicial);
+				Date fechaF = parser.parse(fechaFinal);
+	
+				
+
+				ArrayList<String[]> porFecha = modelo.numeroComparendosPorLocalidadYFecha(localidad, fechaI, fechaF);
+				
+				view.printMessage("Infraccion | # Comparendos"  );
+				
+				for(int i = 0; i < porFecha.size(); i++)
+				{
+					view.printMessage(porFecha.get(i)[0] + "|" + porFecha.get(i)[1]);
+				}
+				}
+				
+				catch(ParseException e)
+				{
+					view.printMessage(e.getMessage());
+				}
+				
+				
 				break; 
 				
 			case 9:

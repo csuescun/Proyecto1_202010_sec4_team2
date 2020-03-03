@@ -248,7 +248,7 @@ public class Modelo
 		return comparendos;
 	}
 
-	
+
 	// Ordenamientos y comparadores
 
 	// Comparador por fecha
@@ -391,69 +391,69 @@ public class Modelo
 		String[] cantidades = new String[3];
 		ArrayList<String[]> aDevolver = new ArrayList<String[]>();
 
-		
-		
+
+
 		for(int i = 0; i < totalComparendos.length; i++)
 		{
 
 			String codigoActual = "";
 			boolean cambioCodigo = false; 
-			
+
 			int totalParticulares = 0;
 			int totalPublicos = 0;
-	
+
 			int repetidos = i;
-			
+
 			while(!cambioCodigo)
 			{
 				if(repetidos+1 >= totalComparendos.length-1 )
 				{
 					cambioCodigo =  true; 
 					repetidos  = totalComparendos.length+1;
-					
+
 					if(totalComparendos[i].darTipoServicio().equalsIgnoreCase("Particular"))
 					{
 						totalParticulares ++;
 					}
-					
+
 					if(totalComparendos[i].darTipoServicio().equalsIgnoreCase("Público"))
 					{
 						totalPublicos ++;
 					}
-					
-		
+
+
 					codigoActual = totalComparendos[i].darInfraccion();
 				}
-				
+
 				else
 				{
 					String codigoA = totalComparendos[repetidos].darInfraccion();
 					String codigoSiguiente = totalComparendos[repetidos+1].darInfraccion();
-					
+
 					if(totalComparendos[i].darTipoServicio().equalsIgnoreCase("Particular"))
 					{
 						totalParticulares ++;
 					}
-					
+
 					if(totalComparendos[i].darTipoServicio().equalsIgnoreCase("Público"))
 					{
 						totalPublicos ++;
 					}
-					
+
 					repetidos++;
-					
+
 					if(!codigoA.equals(codigoSiguiente))
 					{
 						cambioCodigo = true; 
 						codigoActual = codigoA;
 						i  = repetidos;
-						
+
 					}
-					
+
 				}
 			}
-			
-			
+
+
 			if (totalParticulares != 0 | totalPublicos != 0)
 			{
 				cantidades = new String[3];
@@ -467,7 +467,7 @@ public class Modelo
 
 			}
 
-			
+
 		}
 
 
@@ -479,20 +479,93 @@ public class Modelo
 
 	// Requerimiento C1
 
-	public ArrayList<ArrayList<String>> numeroComparendosPorLocalidadYFecha(String pLocalidad, Date fechaIncial, Date fechaFinal)
+	public ArrayList<String[]> numeroComparendosPorLocalidadYFecha(String pLocalidad, Date fechaI, Date fechaF)
 	{
-		return null;
+
+		Comparendo[] totalComparendos = copiarDatos();
+		shellSortPorInfraccion(totalComparendos);
+
+		ArrayList<String[]> aDevolver= new ArrayList<String[]>();
+		String[] cantidades = new String[2];
+
+		for(int i = 0; i < totalComparendos.length; i++)
+		{
+
+			String codigoActual = "";
+			boolean cambioCodigo = false; 
+
+			int total = 0;
+			int repetidos = i;
+
+			while(!cambioCodigo)
+			{
+				if(repetidos+1 >= totalComparendos.length-1 )
+				{
+					cambioCodigo =  true; 
+					repetidos  = totalComparendos.length+1;
+
+					if(totalComparendos[i].darFecha().after(fechaI) && totalComparendos[i].darFecha().before(fechaF) && totalComparendos[i].darLocalidad().equals(pLocalidad))
+					{
+						total ++;
+					}
+
+					codigoActual = totalComparendos[i].darInfraccion();
+				}
+
+
+				else
+				{
+
+					String codigoA = totalComparendos[repetidos].darInfraccion();
+					String codigoSiguiente = totalComparendos[repetidos+1].darInfraccion();
+
+					if(totalComparendos[i].darFecha().after(fechaI) && totalComparendos[i].darFecha().before(fechaF) && totalComparendos[i].darLocalidad().equals(pLocalidad))
+					{
+						total ++;
+					}
+
+					repetidos++;
+
+					if(!codigoA.equals(codigoSiguiente))
+					{
+						cambioCodigo = true; 
+						codigoActual = codigoA;
+						i  = repetidos;
+
+					}
+				}
+
+			}
+
+
+			if (total != 0)
+			{
+				cantidades = new String[3];
+
+				cantidades[0]= codigoActual;
+				cantidades[1]= "" + total;
+
+				aDevolver.add(cantidades);
+
+
+			}
+
+		}
+		
+		return aDevolver;
+
 	}
 
-	//Requerimiento C2
 
-	public ArrayList<ArrayList<String>> darNComparendosPorFecha(int N, Date fechaIncial, Date fechaFinal)
-	{
-		return null;
-	}
+//Requerimiento C2
+
+public ArrayList<ArrayList<String>> darNComparendosPorFecha(int N, Date fechaIncial, Date fechaFinal)
+{
+	return null;
+}
 
 
-	//Requerimiento C3
+//Requerimiento C3
 
 
 }
