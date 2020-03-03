@@ -551,17 +551,118 @@ public class Modelo
 			}
 
 		}
-		
+
 		return aDevolver;
 
 	}
 
 
-//Requerimiento C2
+	//Requerimiento C2
 
-public ArrayList<ArrayList<String>> darNComparendosPorFecha(int N, Date fechaIncial, Date fechaFinal)
-{
-	return null;
+	public ArrayList<String[]> darNComparendosPorFecha(int N, Date fechaInicial, Date fechaFinal)
+	{
+
+		Comparendo[] totalComparendos = copiarDatos();
+		shellSortPorInfraccion(totalComparendos);
+
+		ArrayList<String[]> aDevolver= new ArrayList<String[]>();
+		String[] cantidades = new String[2];
+
+		for(int i = 0; i < totalComparendos.length; i++)
+		{
+
+			String codigoActual = "";
+			boolean cambioCodigo = false; 
+
+			int total = 0;
+			int repetidos = i;
+
+			while(!cambioCodigo)
+			{
+				if(repetidos+1 >= totalComparendos.length-1 )
+				{
+					cambioCodigo =  true; 
+					repetidos  = totalComparendos.length+1;
+
+					if(totalComparendos[i].darFecha().after(fechaInicial) && totalComparendos[i].darFecha().before(fechaFinal))
+					{
+						total ++;
+					}
+
+					codigoActual = totalComparendos[i].darInfraccion();
+				}
+
+
+				else
+				{
+
+					String codigoA = totalComparendos[repetidos].darInfraccion();
+					String codigoSiguiente = totalComparendos[repetidos+1].darInfraccion();
+
+					if(totalComparendos[i].darFecha().after(fechaInicial) && totalComparendos[i].darFecha().before(fechaFinal))
+					{
+						total ++;
+					}
+
+					repetidos++;
+
+					if(!codigoA.equals(codigoSiguiente))
+					{
+						cambioCodigo = true; 
+						codigoActual = codigoA;
+						i  = repetidos;
+
+					}
+				}
+
+			}
+
+
+			if (total != 0)
+			{
+				cantidades = new String[3];
+
+				cantidades[0]= codigoActual;
+				cantidades[1]= "" + total;
+
+				aDevolver.add(cantidades);
+
+			}
+		}
+
+		ArrayList<String[]> respuesta = new ArrayList<String[]>();
+
+
+		while(N > 0)
+		{
+			if(aDevolver.size()>0)
+			{
+				int maximo =0;
+				int posicion=0;
+
+				for(int j =0; j < aDevolver.size(); j++)
+				{
+					if(Integer.parseInt(aDevolver.get(j)[1]) > maximo)
+					{
+						posicion =j;
+						maximo = Integer.parseInt(aDevolver.get(j)[1]);
+					}
+
+				}
+
+				respuesta.add(aDevolver.get(posicion));
+				aDevolver.remove(posicion);
+
+			}
+
+			N--;
+		}
+
+
+
+	return respuesta;
+
+
 }
 
 
