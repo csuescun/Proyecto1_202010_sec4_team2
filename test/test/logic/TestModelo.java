@@ -53,6 +53,16 @@ public class TestModelo
 	}
 
 
+	//Test A1
+	public void testDarPrimeroLocalidad()
+	{
+		Comparendo buscado = modelo.darPrimeroLocalidad("TUNJUELITO");
+		assertEquals("El comparendo encontrado no es el esperado", 509329, buscado.darObjectID());
+		
+		buscado  = modelo.darPrimeroLocalidad("BOSA");
+		assertEquals("El comparendo encontrado no es el esperado", 519553, buscado.darObjectID());
+
+	}
 	//Test B1
 	@Test
 	public void testDarPrimerComparendoPorInfraccion()
@@ -124,20 +134,20 @@ public class TestModelo
 		{
 
 			SimpleDateFormat parser=new SimpleDateFormat("yyyy/MM/dd");
-			
+
 			Date fechaI= parser.parse("2018/01/01");
 			Date fechaF = parser.parse("2018/12/31");
-			
+
 			ArrayList<String[]> testear = modelo.numeroComparendosPorLocalidadYFecha("TEUSAQUILLO", fechaI, fechaF );
-			
+
 			assertEquals("El numero de comparendos en esta localidad y entre estas fechas no es el esperado", 3, testear.size());
-			
+
 			assertEquals("El codigo de la infraccion no es el esperado", "A08", testear.get(0)[0]);
 			assertEquals("El numero de comparendos por infraccion no es el esperado", 1, testear.get(0)[1]);
-			
+
 			assertEquals("El codigo de la infraccion no es el esperado", "C02", testear.get(1)[0]);
 			assertEquals("El numero de comparendos por infraccion no es el esperado", 1, testear.get(1)[1]);
-			
+
 			assertEquals("El codigo de la infraccion no es el esperado", "C31", testear.get(2)[0]);
 			assertEquals("El numero de comparendos por infraccion no es el esperado", 1, testear.get(2)[1]);
 		}
@@ -147,8 +157,8 @@ public class TestModelo
 			System.out.println(e.getMessage());
 		}
 	}
-	
-	
+
+
 	//Test A2
 	public void testDarNComparendosPorFecha()
 	{
@@ -156,30 +166,30 @@ public class TestModelo
 		{
 
 			SimpleDateFormat parser=new SimpleDateFormat("yyyy/MM/dd");
-			
+
 			Date fechaI= parser.parse("2018/01/01");
 			Date fechaF = parser.parse("2018/12/31");
-			
+
 			ArrayList<String[]> testear = modelo.darNComparendosPorFecha(3, fechaI, fechaF);
-			
+
 			assertEquals("El numero de infracciones no es el deseado", 3, testear.size());
-			
+
 			assertEquals("El codigo de la infraccion no es el esperado", "C02", testear.get(0)[0]);
 			assertEquals("El numero de comparendos por infraccion no es el esperado", 9, testear.get(0)[1]);
-			
+
 			assertEquals("El codigo de la infraccion no es el esperado", "C14", testear.get(1)[0]);
 			assertEquals("El numero de comparendos por infraccion no es el esperado", 2, testear.get(1)[1]);
-			
-			
+
+
 			assertEquals("El codigo de la infraccion no es el esperado", "C32", testear.get(2)[0]);
 			assertEquals("El numero de comparendos por infraccion no es el esperado", 2, testear.get(2)[1]);
-			
+
 		}
-		
+
 		catch(Exception e)
 		{
 			System.out.println(e.getMessage());
 		}
-		
+
 	}
 }
