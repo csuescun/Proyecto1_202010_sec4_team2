@@ -406,6 +406,110 @@ public class Modelo
 		}
 	}
 
+	public Comparendo darPrimeroLocalidad(String localidad)
+	{
+		Comparendo buscado = null;
+		
+		for(Comparendo e: datos)
+		{
+			if(e.darLocalidad().equals(localidad))
+			{
+				buscado = e;
+			}
+		}
+		
+		return buscado;
+	}
+
+	
+	//Requerimiento A3:
+		public ArrayList<String[]> numeroComparendosDosFechas( Date fecha1, Date fecha2)
+		{
+
+			Comparendo[] totalComparendos = copiarDatos();
+			shellSortPorInfraccion(totalComparendos);
+
+			ArrayList<String[]> aDevolver= new ArrayList<String[]>();
+			String[] cantidades = new String[2];
+
+			for(int i = 0; i < totalComparendos.length; i++)
+			{
+
+				String codigoActual = "";
+				boolean cambioCodigo = false; 
+
+				int sumaf1 = 0;
+				int sumaf2 = 0;
+				int repetidos = i;
+
+				while(!cambioCodigo)
+				{
+					if(repetidos+1 >= totalComparendos.length-1 )
+					{
+						cambioCodigo =  true; 
+						repetidos  = totalComparendos.length+1;
+
+						if(totalComparendos[i].darFecha().equals(fecha1))
+						{
+							sumaf1++;
+						}
+						if(totalComparendos[i].darFecha().equals(fecha2))
+						{
+							sumaf2++;
+						}
+
+						codigoActual = totalComparendos[i].darInfraccion();
+					}
+
+
+					else
+					{
+
+						String codigoA = totalComparendos[repetidos].darInfraccion();
+						String codigoSiguiente = totalComparendos[repetidos+1].darInfraccion();
+
+						if(totalComparendos[i].darFecha().equals(fecha1))
+						{
+							sumaf1++;
+						}
+
+						if(totalComparendos[i].darFecha().equals(fecha2))
+						{
+							sumaf2++;
+						}
+
+						repetidos++;
+
+						if(!codigoA.equals(codigoSiguiente))
+						{
+							cambioCodigo = true; 
+							codigoActual = codigoA;
+							i  = repetidos;
+
+						}
+
+					}
+				}
+
+				if (sumaf1 != 0 | sumaf2 != 0)
+				{
+					cantidades = new String[3];
+
+					cantidades[0]= codigoActual;
+					cantidades[1]= "" + sumaf1;
+					cantidades[2]= "" + sumaf2;
+
+					aDevolver.add(cantidades);
+
+
+				}
+
+			}
+
+			return aDevolver;
+
+		}
+
 
 	// Requerimiento B1:
 
@@ -741,6 +845,41 @@ public class Modelo
 
 
 //Requerimiento C3
+	public ArrayList<String[]> graficaASCII()
+	{
+		Comparendo[] total = copiarDatos();
+		shellSortPorLocalidad(total);
+		
+		ArrayList<String[]> aDevolver= new ArrayList<String[]>();
+		String[] cantidades = new String[2];
+		int n = 1;
+		String localactual = "";
+		
+		for(int i = 0;i<total.length-1;i++)
+		{
+			localactual = total[i].darLocalidad();
+			
+			if(total[i].darLocalidad().equals(total[i+1]))
+			{
+				n++;
+			}
+			else
+			{
+				n = 1;
+			}
+			
+			if(n==1)
+			{
+				cantidades = new String[2];
+				cantidades[0] = localactual;
+				cantidades[1] = ""+n;
+				aDevolver.add(cantidades);
+			}
+			
+		}	
+		
+		return aDevolver;
+	}
 
 
 }

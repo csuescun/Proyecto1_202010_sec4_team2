@@ -58,10 +58,14 @@ public class Controller {
 				break;				
 
 			case 2:
-				view.printMessage("-------"); 
-				lector.close();
-				fin = true;
+				view.printMessage("Escriba la localidad deseada"); 
+
+				String inlocalidad = lector.next();
+
+				view.printMessage(modelo.darPrimeroLocalidad(inlocalidad).datosCluster());
+
 				break;	
+
 
 			case 3:
 
@@ -80,7 +84,36 @@ public class Controller {
 				break;
 
 			case 4:
+				try{
+
+					view.printMessage("Escriba la primera fecha");
+					String primeraf = lector.next();
+
+					view.printMessage("Escriba la segunda fecha");
+					String segundaf = lector.next();
+
+
+					SimpleDateFormat format = new SimpleDateFormat("yyy/MM/dd"); 
+					Date f1 = format.parse(primeraf);
+					Date f2 = format.parse(segundaf);
+
+					ArrayList<String[]> dosFechas = modelo.numeroComparendosDosFechas(f1, f2);
+
+					view.printMessage("Infraccion     |"+primeraf+"     |"+segundaf);
+
+					for(int i= 0;i<dosFechas.size();i++)
+					{
+						view.printMessage(dosFechas.get(i)[0] + "      |" + dosFechas.get(i)[1] + "      |" + dosFechas.get(i)[2]);
+					}
+				}
+				catch(ParseException e)
+				{
+					view.printMessage(e.getMessage());
+				}
 				break;
+
+
+
 
 
 			case 5:
@@ -210,6 +243,39 @@ public class Controller {
 				break;
 
 			case 10:
+
+				ArrayList<String[]> totallocal = modelo.graficaASCII();
+
+				for(int i = 0;i<totallocal.size();i++)
+				{
+					String nombre = totallocal.get(i)[0];
+					if(nombre.length()>16)
+					{
+						int num = 16 - nombre.length();
+
+						for(int l = 0;l<num;l++)
+						{
+							nombre+="-";
+						}
+
+					}
+					int rep = Integer.parseInt(totallocal.get(i)[1]);
+					int asteriscos = rep/50;
+					String cadena = "";
+					for(int j= 0;j<asteriscos;j++)
+					{
+						cadena+="*";
+					}
+					if(rep%50!=0)
+					{
+						cadena+="*";
+					}
+
+
+					view.printMessage(nombre+"|"+cadena);
+					view.printMessage(""+totallocal.size());
+				}
+
 				break;
 
 			case 11: 
